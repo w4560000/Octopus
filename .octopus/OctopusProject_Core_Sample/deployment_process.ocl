@@ -5,6 +5,7 @@ step "Deploy To Bare Metal Kubernetes Cluster" {
 
     action {
         action_type = "Octopus.KubernetesDeployContainers"
+        environments = ["develop"]
         properties = {
             Octopus.Action.EnabledFeatures = "Octopus.Features.KubernetesService"
             Octopus.Action.KubernetesContainers.CombinedVolumes = "[]"
@@ -26,6 +27,7 @@ step "Deploy To Bare Metal Kubernetes Cluster" {
             Octopus.Action.KubernetesContainers.PodAffinity = "[]"
             Octopus.Action.KubernetesContainers.PodAnnotations = "[]"
             Octopus.Action.KubernetesContainers.PodAntiAffinity = "[]"
+            Octopus.Action.KubernetesContainers.PodManagementPolicy = "OrderedReady"
             Octopus.Action.KubernetesContainers.PodSecuritySysctls = "[]"
             Octopus.Action.KubernetesContainers.Replicas = "1"
             Octopus.Action.KubernetesContainers.ServiceName = "#{K8s.Web.ProjectSimpleName}"
