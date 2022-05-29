@@ -1,0 +1,49 @@
+step "Deploy To Bare Metal Kubernetes Cluster" {
+    properties = {
+        Octopus.Action.TargetRoles = "web-k8s"
+    }
+
+    action {
+        action_type = "Octopus.KubernetesDeployContainers"
+        properties = {
+            Octopus.Action.EnabledFeatures = ",Octopus.Features.KubernetesService,Octopus.Features.KubernetesIngress,Octopus.Features.KubernetesConfigMap,Octopus.Features.KubernetesSecret"
+            Octopus.Action.KubernetesContainers.CombinedVolumes = "[]"
+            Octopus.Action.KubernetesContainers.Containers = "[{\"IsNew\":true,\"InitContainer\":\"False\",\"Ports\":[{\"key\":\"http\",\"value\":\"#{K8s.Web.WebPort}\",\"option\":\"TCP\"}],\"EnvironmentVariables\":[{\"key\":\"ASPNETCORE_ENVIRONMENT\",\"value\":\"#{Octopus.Environment.Name}\"}],\"SecretEnvironmentVariables\":[],\"SecretEnvFromSource\":[],\"ConfigMapEnvironmentVariables\":[],\"ConfigMapEnvFromSource\":[],\"FieldRefEnvironmentVariables\":[],\"VolumeMounts\":[],\"AcquisitionLocation\":\"NotAcquired\",\"Name\":\"web-container\",\"PackageId\":\"#{K8s.Web.ImageRegistry}\",\"FeedId\":\"Google Artifact Registry\",\"Properties\":{},\"Command\":[],\"Args\":[],\"Resources\":{\"requests\":{\"memory\":\"\",\"cpu\":\"\",\"ephemeralStorage\":\"\"},\"limits\":{\"memory\":\"\",\"cpu\":\"\",\"ephemeralStorage\":\"\",\"nvidiaGpu\":\"\",\"amdGpu\":\"\"}},\"LivenessProbe\":{\"failureThreshold\":\"\",\"initialDelaySeconds\":\"\",\"periodSeconds\":\"\",\"successThreshold\":\"\",\"timeoutSeconds\":\"\",\"type\":\"HttpGet\",\"exec\":{\"command\":[]},\"httpGet\":{\"host\":\"\",\"path\":\"#{K8s.Web.Core.HealthCheckPath}\",\"port\":\"#{K8s.Web.WebPort}\",\"scheme\":\"HTTP\",\"httpHeaders\":[]},\"tcpSocket\":{\"host\":\"\",\"port\":\"\"}},\"ReadinessProbe\":{\"failureThreshold\":\"\",\"initialDelaySeconds\":\"\",\"periodSeconds\":\"15\",\"successThreshold\":\"\",\"timeoutSeconds\":\"\",\"type\":\"HttpGet\",\"exec\":{\"command\":[]},\"httpGet\":{\"host\":\"\",\"path\":\"#{K8s.Web.Core.HealthCheckPath}\",\"port\":\"#{K8s.Web.WebPort}\",\"scheme\":\"HTTP\",\"httpHeaders\":[]},\"tcpSocket\":{\"host\":\"\",\"port\":\"\"}},\"StartupProbe\":{\"failureThreshold\":\"\",\"initialDelaySeconds\":\"\",\"periodSeconds\":\"\",\"successThreshold\":\"\",\"timeoutSeconds\":\"\",\"type\":null,\"exec\":{\"command\":[]},\"httpGet\":{\"host\":\"\",\"path\":\"\",\"port\":\"\",\"scheme\":\"\",\"httpHeaders\":[]},\"tcpSocket\":{\"host\":\"\",\"port\":\"\"}},\"Lifecycle\":{},\"SecurityContext\":{\"allowPrivilegeEscalation\":\"\",\"privileged\":\"\",\"readOnlyRootFilesystem\":\"\",\"runAsGroup\":\"\",\"runAsNonRoot\":\"\",\"runAsUser\":\"\",\"capabilities\":{\"add\":[],\"drop\":[]},\"seLinuxOptions\":{\"level\":\"\",\"role\":\"\",\"type\":\"\",\"user\":\"\"}}}]"
+            Octopus.Action.KubernetesContainers.DeploymentAnnotations = "[]"
+            Octopus.Action.KubernetesContainers.DeploymentLabels = "{\"app\":\"#{K8s.Web.ProjectSimpleName}\"}"
+            Octopus.Action.KubernetesContainers.DeploymentName = "#{K8s.Web.ProjectSimpleName}"
+            Octopus.Action.KubernetesContainers.DeploymentResourceType = "Deployment"
+            Octopus.Action.KubernetesContainers.DeploymentStyle = "RollingUpdate"
+            Octopus.Action.KubernetesContainers.DeploymentWait = "Wait"
+            Octopus.Action.KubernetesContainers.DnsConfigOptions = "[]"
+            Octopus.Action.KubernetesContainers.IngressAnnotations = "[]"
+            Octopus.Action.KubernetesContainers.LoadBalancerAnnotations = "[]"
+            Octopus.Action.KubernetesContainers.MaxSurge = "1"
+            Octopus.Action.KubernetesContainers.MaxUnavailable = "1"
+            Octopus.Action.KubernetesContainers.Namespace = "#{K8s.Web.Namespace}"
+            Octopus.Action.KubernetesContainers.NodeAffinity = "[]"
+            Octopus.Action.KubernetesContainers.PersistentVolumeClaims = "[]"
+            Octopus.Action.KubernetesContainers.PodAffinity = "[]"
+            Octopus.Action.KubernetesContainers.PodAnnotations = "[]"
+            Octopus.Action.KubernetesContainers.PodAntiAffinity = "[]"
+            Octopus.Action.KubernetesContainers.PodSecuritySysctls = "[]"
+            Octopus.Action.KubernetesContainers.Replicas = "1"
+            Octopus.Action.KubernetesContainers.ServiceName = "#{K8s.Web.ProjectSimpleName}"
+            Octopus.Action.KubernetesContainers.ServiceNameType = "External"
+            Octopus.Action.KubernetesContainers.ServicePorts = "[{\"name\":\"http-port\",\"port\":\"80\",\"targetPort\":\"\",\"protocol\":\"TCP\"}]"
+            Octopus.Action.KubernetesContainers.ServiceType = "ClusterIP"
+            Octopus.Action.KubernetesContainers.Tolerations = "[]"
+        }
+
+        packages "web-container" {
+            acquisition_location = "NotAcquired"
+            feed = "Google Artifact Registry"
+            package_id = "#{K8s.Web.ImageRegistry}"
+            properties = {
+                Extract = "False"
+                PackageParameterName = ""
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
