@@ -5,7 +5,7 @@ step "Deploy To Bare Metal Kubernetes Cluster" {
 
     action {
         action_type = "Octopus.KubernetesDeployContainers"
-        environments = ["develop"]
+        environments = ["develop", "qc"]
         properties = {
             Octopus.Action.EnabledFeatures = "Octopus.Features.KubernetesService"
             Octopus.Action.KubernetesContainers.CombinedVolumes = "[]"
