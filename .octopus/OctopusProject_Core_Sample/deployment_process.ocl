@@ -58,7 +58,6 @@ step "Deploy To Cloud Kubernetes Cluster" {
 
     action {
         action_type = "Octopus.KubernetesDeployContainers"
-        channels = ["qc"]
         environments = ["qc"]
         notes = "部署 GKE Ingress"
         properties = {
@@ -82,6 +81,7 @@ step "Deploy To Cloud Kubernetes Cluster" {
             Octopus.Action.KubernetesContainers.PodAffinity = "[]"
             Octopus.Action.KubernetesContainers.PodAnnotations = "[]"
             Octopus.Action.KubernetesContainers.PodAntiAffinity = "[]"
+            Octopus.Action.KubernetesContainers.PodManagementPolicy = "OrderedReady"
             Octopus.Action.KubernetesContainers.PodSecuritySysctls = "[]"
             Octopus.Action.KubernetesContainers.Replicas = "1"
             Octopus.Action.KubernetesContainers.ServiceName = "#{K8s.Web.ProjectSimpleName}"
